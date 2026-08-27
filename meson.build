@@ -48,7 +48,7 @@ wlr_output_power_mgmt_proto_h = custom_target(
   'wlr-output-power-management-unstable-v1-protocol.h',
   output: 'wlr-output-power-management-unstable-v1-protocol.h',
   input: 'protocols/wlr-output-power-management-unstable-v1.xml',
-  command: [wayland_scanner, 'client-header', '@INPUT@', '@OUTPUT@'],
+  command: [wayland_scanner, 'server-header', '@INPUT@', '@OUTPUT@'],
 )
 
 

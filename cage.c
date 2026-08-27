@@ -53,8 +53,8 @@
 #endif
 
 #include "idle_inhibit_v1.h"
-#include "output_power_manager_v1.h"
 #include "output.h"
+#include "output_power_manager_v1.h"
 #include "seat.h"
 #include "server.h"
 #include "view.h"
@@ -693,7 +693,7 @@ main(int argc, char *argv[])
 	wl_list_remove(&server.new_virtual_keyboard.link);
 	wl_list_remove(&server.output_manager_apply.link);
 	wl_list_remove(&server.output_manager_test.link);
-    wl_list_remove(&server.output_power_manager_set_mode.link);
+	wl_list_remove(&server.output_power_manager_set_mode.link);
 	wl_list_remove(&server.xdg_toplevel_decoration.link);
 	wl_list_remove(&server.new_xdg_toplevel.link);
 	wl_list_remove(&server.new_xdg_popup.link);
