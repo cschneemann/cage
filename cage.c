@@ -552,9 +552,9 @@ main(int argc, char *argv[])
 	}
 	server.output_manager_apply.notify = handle_output_manager_apply;
 	wl_signal_add(&server.output_manager_v1->events.apply, &server.output_manager_apply);
-
 	server.output_manager_test.notify = handle_output_manager_test;
 	wl_signal_add(&server.output_manager_v1->events.test, &server.output_manager_test);
+
 	server.output_power_manager_v1 = wlr_output_power_manager_v1_create(server.wl_display);
 	if (!server.output_power_manager_v1) {
 		wlr_log(WLR_ERROR, "Unable to create the output power manager");

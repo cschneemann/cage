@@ -96,6 +96,9 @@ output_layout_remove(struct cg_output *output)
 	wlr_output_layout_remove(output->server->output_layout, output->wlr_output);
 }
 
+/* An output is "disabled" when it has been removed from the output layout
+ * (e.g. via wlr-output-management). This is distinct from an output that is
+ * merely powered off, which remains in the layout with its hardware disabled. */
 static inline bool
 output_is_disabled(struct cg_output *output)
 {

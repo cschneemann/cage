@@ -33,25 +33,25 @@
     wlr-output-management.
 
     Warning! The protocol described in this file is experimental and
-    backward incompatible changes may be made. Backward compatible
-    changes may be added together with the corresponding interface
-    version bump.
-    Backward incompatible changes are done by bumping the version
-    number in the protocol and interface names and resetting the interface
-    version. Once the protocol is to be declared stable, the 'z' prefix
-    and the version number in the protocol and interface names are removed
-    and the interface version number is reset.
+    backward incompatible changes may be made. Backward compatible changes
+    may be added together with the corresponding interface version bump.
+    Backward incompatible changes are done by bumping the version number in
+    the protocol and interface names and resetting the interface version.
+    Once the protocol is to be declared stable, the 'z' prefix and the
+    version number in the protocol and interface names are removed and the
+    interface version number is reset.
   </description>
 
   <interface name="zwlr_output_power_manager_v1" version="1">
     <description summary="manager to create per-output power management">
       This interface is a manager that allows creating per-output power
-      management objects.
+      management mode controls.
     </description>
 
     <request name="get_output_power">
-      <description summary="get a power management interface for an output">
-        Create a output power management object for the given output.
+      <description summary="get a power management for an output">
+        Create an output power management mode control that can be used to
+        adjust the power management mode for a given output.
       </description>
       <arg name="id" type="new_id" interface="zwlr_output_power_v1"/>
       <arg name="output" type="object" interface="wl_output"/>
@@ -73,24 +73,17 @@
 
     <enum name="mode">
       <entry name="off" value="0"
-        summary="Turns the output off.
-          This state does not support user interaction.
-          The screen is not visible, all data is preserved.
-          Clients are still notified by events. Hardware may turn off
-          the display. This corresponds to DPM-off in the X11 world.
-          Only output from the compositor (e.g. the cursor image) is
-          affected, not the backlight of the display itself."/>
+             summary="Output is turned off."/>
       <entry name="on" value="1"
-        summary="Turns the output on.
-          The output is on and can be used normally."/>
+             summary="Output is turned on, no power saving"/>
     </enum>
 
     <enum name="error">
-      <entry name="invalid_mode" value="1" summary="nonexistent mode"/>
+      <entry name="invalid_mode" value="1" summary="nonexistent power save mode"/>
     </enum>
 
     <request name="set_mode">
-      <description summary="Set an output's power save mode">
+      <description summary="Set an outputs power save mode">
         Set an output's power save mode to the given mode. The mode change
         is effective immediately. If the output does not support the given
         mode a failed event is sent.
@@ -103,23 +96,24 @@
         Report the power management mode change of an output.
 
         The mode event is sent after an output changed its power
-        management mode. The reason can be a client request or the
+        management mode. The reason can be a client using set_mode or the
         compositor deciding to change an output's mode.
         This event is also sent immediately when the object is created
         so the client is informed about the current power management mode.
       </description>
       <arg name="mode" type="uint" enum="mode"
-        summary="the power management mode"/>
+           summary="the output's new power management mode"/>
     </event>
 
     <event name="failed">
       <description summary="object no longer valid">
-        This event indicates that the output power management object is no
-        longer valid. This can happen for a number of reasons,
+        This event indicates that the output power management mode control
+        is no longer valid. This can happen for a number of reasons,
         including:
         - The output doesn't support power management
-        - Another client already has exclusive power management rights
+        - Another client already has exclusive power management mode control
           for this output
+        - The output disappeared
 
         Upon receiving this event, the client should destroy this object.
       </description>
@@ -127,7 +121,7 @@
 
     <request name="destroy" type="destructor">
       <description summary="destroy this power management">
-        Destroys the output power management object.
+        Destroys the output power management mode control object.
       </description>
     </request>
   </interface>
